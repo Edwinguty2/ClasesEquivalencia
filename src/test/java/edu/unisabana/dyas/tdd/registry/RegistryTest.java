@@ -3,6 +3,8 @@ package edu.unisabana.dyas.tdd.registry;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.io.IOException;
+
 public class RegistryTest {
     private Registry registry = new Registry();
     // @Test
@@ -61,6 +63,7 @@ public class RegistryTest {
         Person validPerson = new Person("Edwin", 2323, -5, Gender.UNIDENTIFIED, true);
         RegisterResult result = registry.registerVoter(validPerson);
         Assert.assertEquals(RegisterResult.INVALID_AGE, result);
+
     }
 
     @Test
@@ -103,17 +106,26 @@ public class RegistryTest {
 
     /*
         Clase de equivalencia #5
-        Validar que el votante sea valido, por lo que no se debe repetir,DEBE  estar vivo y cumplir la
-        edad.
-        Solo especificamos el caso valido, porqué los invalidos son reduntantes, ya qué fueron
-        mencionados en los anteriores y el enumerador RegisterResult no hay un caso "invalido".
+        Validar que el votante sea valido, por lo que los datos deben ser correctos".
+        El caso invalido se podría enfocar que efectivamente con un caso de un votante
+        Valido, no se espera que retorne "Dead"
     */
 
     @Test
     public void validarVotanteValido() {
-        Person votante = new Person("Nicolas", 2776, 19, Gender.MALE, true);
+        Person votante = new Person("Nicolas", 76, 19, Gender.MALE, true);
         RegisterResult result = registry.registerVoter(votante);
         Assert.assertEquals(RegisterResult.VALID, result);
     }
+
+    @Test
+    public void validarVotanteRespuesta() {
+        Person votante = new Person("Nicolas", 76, 19, Gender.MALE, true);
+        RegisterResult result = registry.registerVoter(votante);
+        Assert.assertNotEquals(RegisterResult.DEAD, result);
+    }
+
+
+
 
 }
